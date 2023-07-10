@@ -10,6 +10,7 @@ import hotSearch from './hotSearch'
 import comment from './comment'
 import auth from './auth';
 import notification from './notification'
+import lyric from './lyric'
 const kw = {
   _musicInfoRequestObj: null,
   _musicInfoPromiseCancelFn: null,
@@ -40,8 +41,9 @@ const kw = {
   comment,
   auth,
   getLyric(songInfo, isGetLyricx) {
-    // let singer = songInfo.singer.indexOf('、') > -1 ? songInfo.singer.split('、')[0] : songInfo.singer
-    //return lyric.getLyric(songInfo, isGetLyricx)
+    console.log('ici get');
+    let singer = songInfo.singer.indexOf('、') > -1 ? songInfo.singer.split('、')[0] : songInfo.singer
+    return lyric.getLyric(songInfo, isGetLyricx)
   },
   handleMusicInfo(songInfo) {
     return this.getMusicInfo(songInfo).then(info => {

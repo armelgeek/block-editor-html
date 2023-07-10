@@ -201,6 +201,7 @@ const fetchData = (url, { timeout = 15000, ...options }) => {
   return {
     request: handleRequestData(url, options).then((options) => {
       return global.fetch(url, {
+        cache: "default",
           ...options,
           signal: controller.signal,
         })

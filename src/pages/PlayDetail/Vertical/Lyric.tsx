@@ -89,7 +89,7 @@ const wait = async() => new Promise(resolve => setTimeout(resolve, 100))
 
 export default () => {
   const lyricLines = useLrcSet()
- // const { line } = useLrcPlay()
+  const { line } = useLrcPlay()
   const flatListRef = useRef<any>(null)
   const isPauseScrollRef = useRef(true)
   const scrollTimoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -170,80 +170,21 @@ export default () => {
     handleScrollToActive()
   }, [])
 
-  const handleScrollToIndexFailed: any['onScrollToIndexFailed'] = (info) => {
-    // console.log(info)
-    void wait().then(() => {
-      handleScrollToActive(info.index)
-    })
-  }
-
-  const renderItem: any['renderItem'] = ({ item, index }) => {
+  const renderItem: any['renderItem'] = ({ item, index }:any) => {
     return (
-      <>
-      {/**<LrcLine line={item} lineNum={index} activeLine={line} />**/}
-      </>
+      <div key={index}>
+        <LrcLine line={item} lineNum={index} activeLine={line}/>
+      </div>
     )
   }
-  const getkey: any['keyExtractor'] = (item, index) => `${index}${item.text}`
-
-  const spaceComponent = useMemo(() => (
-    <div style={styles.space}></div>
-  ), [])
 
   return (
     <>
-    {lyricLines.map((item,index) => renderItem({
+    {lyricLines.map((item:any,index:number) => renderItem({
       item,
       index
     }))}
-       {/**<FlatList
-          data={lyricLines}
-          renderItem={renderItem}
-          keyExtractor={getkey}
-          style={styles.container}
-          ref={flatListRef}
-          showsVerticalScrollIndicator={false}
-          ListHeaderComponent={spaceComponent}
-          ListFooterComponent={spaceComponent}
-          onScrollBeginDrag={handleScrollBeginDrag}
-          onScrollEndDrag={onScrollEndDrag}
-          fadingEdgeLength={100}
-          initialNumToRender={Math.max(line + 10, 10)}
-          onScrollToIndexFailed={handleScrollToIndexFailed}
-      />**/}
     </>
    
   )
 }
-
-const styles = createStyle({
-  container: {
-    flex: 1,
-    paddingLeft: 20,
-    paddingRight: 20,
-    // backgroundColor: 'rgba(0,0,0,0.1)',
-  },
-  space: {
-    paddingTop: '80%',
-  },
-  line: {
-    marginTop: 10,
-    marginBottom: 10,
-    // opacity: 0,
-  },
-  lineText: {
-    textAlign: 'center',
-    // fontSize: 16,
-    // lineHeight: 20,
-    // paddingTop: 5,
-    // paddingBottom: 5,
-    // opacity: 0,
-  },
-  lineTranslationText: {
-    textAlign: 'center',
-    // fontSize: 13,
-    // lineHeight: 17,
-    paddingTop: 5,
-    // paddingBottom: 5,
-  },
-})

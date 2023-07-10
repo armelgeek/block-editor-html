@@ -106,7 +106,6 @@ export default forwardRef<OnlineListType, OnlineListProps>(
         });
       }
     };
-    console.log('liso',listRef.current);
     return (
       <div style={{
           display:'flex',

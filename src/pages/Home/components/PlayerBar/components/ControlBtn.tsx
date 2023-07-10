@@ -27,6 +27,9 @@ const TogglePlayBtn = () => {
 
   return (
     <button
+        style={{
+          marginRight:15
+        }}
       onClick={togglePlay}
     >
       {isPlay ? "pause" : "play"}

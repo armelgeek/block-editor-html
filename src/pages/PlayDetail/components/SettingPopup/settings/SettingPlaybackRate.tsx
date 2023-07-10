@@ -3,7 +3,7 @@ import { useTheme } from '../../../../../store/theme/hook'
 import { useSettingValue } from '../../../../../store/setting/hook'
 import { updateSetting } from '../../../../../core/common'
 //import { useI18n } from '../../../../../lang'
-import { setPlaybackRate, updateMetaData } from '../../../../../plugins/player'
+import { setPlaybackRate, updateMetaData } from '../../../../../plugins/player/index'
 import { setPlaybackRate as setLyricPlaybackRate } from '../../../../../core/lyric'
 import playerState from '../../../../../store/player/state'
 import settingState from '../../../../../store/setting/state'
@@ -18,15 +18,15 @@ const Volume = () => {
   const [isSliding, setSliding] = useState(false)
   //const t = useI18n()
 
-  const handleSlidingStart: any['onSlidingStart'] = value => {
+  const handleSlidingStart: any['onSlidingStart'] = (value:number) => {
     setSliding(true)
   }
-  const handleValueChange: any['onValueChange'] = value => {
+  const handleValueChange: any['onValueChange'] = (value:number) => {
     value = Math.trunc(value)
     setSliderSize(value)
     void setPlaybackRate(parseFloat((value / 100).toFixed(2)))
   }
-  const handleSlidingComplete: any['onSlidingComplete'] = value => {
+  const handleSlidingComplete: any['onSlidingComplete'] = (value:number) => {
     setSliding(false)
     value = Math.trunc(value)
     const rate = value / 100

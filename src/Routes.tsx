@@ -3,7 +3,7 @@ import { init as initLog } from "./utils/log";
 import "./config/globalData";
 import "./App.css";
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import CreateSong from "./pages/songs/create";
 import EditSong from "./pages/songs/edit";
 import SongList from "./pages/songs/index";
@@ -12,6 +12,10 @@ import Leaderboard from "./pages/Home/Views/Leaderboard";
 import SonglistDetail from "./pages/Home/Views/SonglistDetail";
 import { getFontSize } from "./utils/data";
 import KaraokeEditor from "./pages/Editor";
+import MyList from "./pages/Home/Views/Mylist";
+import PlayerBar from "./pages/Home/components/PlayerBar";
+import PlayDetail from './pages/PlayDetail';
+import {Link} from "react-router-dom";
 
 let isInited = false;
 const Routes = () => {
@@ -22,7 +26,6 @@ const Routes = () => {
     const { default: init } = await import("./core/init");
     try {
       await init();
-      console.log("inti leka");
     } catch (err) {
       console.log("err", err);
       return;
@@ -37,12 +40,26 @@ const Routes = () => {
   }, []);
   return (
     <AppProvider>
+
         <Router>
+          <div style={{
+            display:'flex',
+            flexDirection:'row'
+
+          }}>
+            <Link to={'/'}>Home</Link>
+            <Link to={'/list'}>My list</Link>
+            <Link to={'/song/player'}>Player Detail</Link>
+
+          </div>
             <Switch>
               <Route path="/" exact component={Leaderboard} />
               <Route path="/artist/songs" exact component={SonglistDetail} />
+              <Route path="/song/player" exact component={PlayDetail}/>
+              <Route path="/list" exact component={MyList}/>
               <Route path="/karaoke/maker" exact component={KaraokeEditor}/>
             </Switch>
+
         </Router>
     </AppProvider>
   );

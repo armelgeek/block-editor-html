@@ -31,7 +31,7 @@ const ProgressBarComponent = ({ duration, currentTime, onSeek }:any) => {
           type="range"
           min="0"
           max="100"
-          value={progress}
+          value={String(progress)}
           onChange={handleChange}
           className="progress-bar"
       />
@@ -49,7 +49,9 @@ export default () => {
     useProgress(autoUpdate);
   global.lx.trackPlayer.updatePosition();
   return (
-    <div>
+    <div style={{
+        width:'100%'
+    }}>
       <div style={{
         marginLeft:10,
         marginRight:10,

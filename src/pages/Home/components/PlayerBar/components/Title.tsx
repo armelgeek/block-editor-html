@@ -32,8 +32,8 @@ export default () => {
   const title = musicInfo.id ? downloadFileName.replace('歌手', musicInfo.singer).replace('歌名', musicInfo.name) : ''
   // console.log(playMusicInfo)
   return (
-    <div style={{ width: '100%' }} onClick={handlePress}>
-      <p>{title}</p>
+    <div style={{ width: '100%', textAlign:'center',marginBottom:20}} onClick={handlePress}>
+      {title}
     </div>
   )
 }

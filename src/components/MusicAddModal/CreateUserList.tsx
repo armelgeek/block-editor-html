@@ -32,11 +32,12 @@ export default ({ isEdit, onHide }: {
       <div>
         <input
           placeholder={'list_create_input_placeholder'}
-          value={text}
-         // onChange={setText}
+          defaultValue={text}
+          onChange={(e) => setText(e.target.value)}
           ref={inputRef}
-          onBlur={handleSubmitEditing}
+
         />
+        <button onClick={handleSubmitEditing}>Enregistrer</button>
       </div>
       )
     : null

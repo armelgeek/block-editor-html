@@ -37,18 +37,11 @@ export default ({ musicInfo, onPress }: {
 }) => {
   const { window } = useDimensions()
   const allList = useMyList()
-  const itemWidth = useMemo(() => {
-    let w = Math.floor(window.width * 0.9)
-    let n = Math.floor(w/10)
-    if (n > 10) n = 10
-    return Math.floor((w - 1) / n)
-  }, [window])
-
   return (
     <div style={{ flexGrow: 0 }}>
       <div>
-        { allList.map(info => <ListItem key={info.id} listInfo={info} musicInfo={musicInfo} onPress={onPress} width={itemWidth} />) }
-        <EditListItem itemWidth={itemWidth} />
+        { allList.map(info => <ListItem key={info.id} listInfo={info} musicInfo={musicInfo} onPress={onPress} width={100} />) }
+        <EditListItem itemWidth={30} />
       </div>
     </div>
   )

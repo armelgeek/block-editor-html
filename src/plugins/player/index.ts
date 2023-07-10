@@ -9,6 +9,7 @@ const initial = async({ volume, playRate, cacheSize, isHandleAudioFocus }: {
   if (global.lx.playerStatus.isIniting || global.lx.playerStatus.isInitialized) return
   global.lx.playerStatus.isIniting = true
   console.log('Cache Size', cacheSize * 1024)
+  console.log('Volume',volume);
   if (global.audio) return
   global.audio = new window.Audio()
   global.audio.controls = false
@@ -17,6 +18,7 @@ const initial = async({ volume, playRate, cacheSize, isHandleAudioFocus }: {
   global.lx.playerStatus.isInitialized = true
   global.lx.playerStatus.isIniting = false
   await setVolume(volume)
+  global.lx.trackPlayer.setVolume(volume);
   await setPlaybackRate(playRate)
   // listenEvent()
 }

@@ -9,8 +9,8 @@ export default ({ musicInfo, isMove }: {
   const theme = useTheme()
   //const t = useI18n()
   return (
-    <p >
-      {isMove ? 'list_add_title_first_move' : 'list_add_title_first_add'} <p color={theme['c-primary-font']}>{musicInfo.name}</p> {'list_add_title_last'}
+    <p>
+      {isMove ? 'list_add_title_first_move' : 'list_add_title_first_add'} <span>{musicInfo.name}</span>
     </p>
   )
 }

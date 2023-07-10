@@ -172,7 +172,7 @@ export default {
   },
 
   getList(id, page, filters, retryNum = 0) {
-    console.log('id',id,'page',page,'fitlexrs',filters);
+   // console.log('id',id,'page',page,'fitlexrs',filters);
     //if (++retryNum > 3) return Promise.reject(new Error("try max num"));
     // traitement du filters
    

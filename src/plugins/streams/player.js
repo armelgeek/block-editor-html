@@ -1,5 +1,9 @@
 import {getRandomShuffledIndex} from "./utils.js";
 import Streamer from "../../plugins/streams/streamer";
+import playerState from "../../store/player/state";
+import {setPlayMusicInfo} from "../../core/player/playInfo";
+import {pause, playNext} from "../../core/player/player";
+import {MUSIC_TOGGLE_MODE} from "../../config/constant";
 
 export default class Player {
   add(tracks) {
@@ -20,7 +24,6 @@ export default class Player {
     global.lx.currentTrackIndex = index;
     const track = global.lx.playlist[index];
     global.lx.streamer = new Streamer(track.url, global.lx.ac,global.lx.store);
-    console.log('ici leka');
     global.lx.streamer.load().then(() => {
       if (global.lx.currentPosition > 0) {
         this.played(global.lx.currentPosition);
@@ -48,6 +51,7 @@ export default class Player {
     return global.lx.playlist[global.lx.currentTrackIndex];
   }
   skipToNext() {
+    console.log('skip to',global.lx.playMode);
     global.lx.currentPosition= 0;
     this.skipTo('next', global.lx.currentTrackIndex, global.lx.playlist.length);
   }
@@ -109,22 +113,21 @@ export default class Player {
     length
   ) {
     global.lx.currentPosition = 0;
-    console.log('skip to');
     global.lx.streamer.stop();
     global.lx.streamer.seek(0);
     let currentIndex = index;
     switch (global.lx.playMode) {
-      case "loop":
+      case MUSIC_TOGGLE_MODE.listLoop:
         if (order === "next") {
           currentIndex = (index + 1) % length;
         } else {
           currentIndex = (index - 1 + length) % length;
         }
         break;
-      case "repeat":
+      case MUSIC_TOGGLE_MODE.singleLoop:
         currentIndex = index;
         break;
-      case "in-order":
+      case  MUSIC_TOGGLE_MODE.list:
         if (order === "next") {
           if (index >= length - 1) {
             currentIndex = 0;
@@ -139,17 +142,17 @@ export default class Player {
           }
         }
         break;
-      case "shuffle":
+      case  MUSIC_TOGGLE_MODE.random:
         currentIndex = getRandomShuffledIndex(length, index);
         break;
-      case "disabled":
+      case  MUSIC_TOGGLE_MODE.none:
         currentIndex = -1;
         break;
     }
-    if (currentIndex !== -1) {
-      this.playTrack(currentIndex);
+    if (currentIndex !== -1)
       global.lx.currentTrackIndex = currentIndex;
-    }
+    playNext().then(r => {});
+
 
 
   };

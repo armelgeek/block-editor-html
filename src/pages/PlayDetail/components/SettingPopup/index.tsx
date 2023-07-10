@@ -28,14 +28,11 @@ export default forwardRef<SettingPopupType, SettingPopupProps>(
 
     useImperativeHandle(ref, () => ({
       show() {
-        if (visible) popupRef.current?.setVisible(true);
-        else {
           setVisible(true);
-          requestAnimationFrame(() => {
-            popupRef.current?.setVisible(true);
-          });
-        }
       },
+      hide(){
+          setVisible(false);
+      }
     }));
 
     return visible ? (
@@ -44,8 +41,8 @@ export default forwardRef<SettingPopupType, SettingPopupProps>(
           <SettingVolume />
           <SettingPlaybackRate />
           <SettingLrcFontSize direction={direction} />
-          <SettingLrcAlign />
         </div>
+          <button onClick={() => setVisible(false)}>Fermer</button>
       </div>
     ) : null;
   }

@@ -13,8 +13,11 @@ const PrevBtn = () => {
     void playPrev()
   }
   return (
-    <button style={{width: WIDTH, height: WIDTH }} onClick={handlePlayPrev}>
-      PrevMusc
+    <button style={{
+      marginLeft: 10,
+      marginRight:10
+    }} onClick={handlePlayPrev}>
+      Previous
     </button>
   )
 }
@@ -24,8 +27,11 @@ const NextBtn = () => {
     void playNext()
   }
   return (
-    <button style={{ width: WIDTH, height: WIDTH }} onClick={handlePlayNext}>
-      Next Music
+    <button style={{
+      marginLeft: 10,
+      marginRight:10
+    }} onClick={handlePlayNext}>
+      Next
     </button>
   )
 }
@@ -34,7 +40,10 @@ const TogglePlayBtn = () => {
   const theme = useTheme()
   const isPlay = useIsPlay()
   return (
-    <button style={{ width: WIDTH, height: WIDTH }} onClick={togglePlay}>
+    <button style={{
+      marginLeft: 10,
+      marginRight:10
+    }} onClick={togglePlay}>
       {isPlay ? 'pause' : 'play'}
     </button>
   )
@@ -42,10 +51,13 @@ const TogglePlayBtn = () => {
 
 export default () => {
   return (
-    <>
+    <div style={{
+      display:'flex',
+      flexDirection:'row'
+    }}>
       <PrevBtn />
       <TogglePlayBtn />
       <NextBtn />
-    </>
+    </div>
   )
 }

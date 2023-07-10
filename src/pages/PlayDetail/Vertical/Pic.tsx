@@ -20,8 +20,6 @@ export default ({ componentId }: { componentId: string }) => {
   const { window } = useDimensions()
 
   const [animated, setAnimated] = useState(false)
-  const imgWidth = window.width * 0.8
-
   return (
     <div>
       <div>
@@ -29,11 +27,11 @@ export default ({ componentId }: { componentId: string }) => {
           musicInfo.pic
             ? (
                 <img src={musicInfo.pic} style={{
-                  width: imgWidth,
-                  height: imgWidth,
+                    width:100,
+                    height:100
                 }} />
               )
-            : <EmptyPic width={imgWidth} />
+            : <EmptyPic width={100} />
         }
       </div>
     </div>

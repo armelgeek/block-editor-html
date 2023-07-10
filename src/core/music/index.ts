@@ -68,7 +68,6 @@ export const getLyricInfo = async({
   isRefresh?: boolean
   onToggleSource?: (musicInfo?: LX.Music.MusicInfoOnline) => void
 }) => {
-
   if ('progress' in musicInfo) {
     return await getDownloadLyricInfo({ musicInfo, isRefresh, onToggleSource })
   } else if (musicInfo.source == 'local') {

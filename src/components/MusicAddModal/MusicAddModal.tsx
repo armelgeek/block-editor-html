@@ -27,16 +27,11 @@ export interface MusicAddModalType {
 
 export default forwardRef<MusicAddModalType, {}>((props, ref) => {
   //const t = useI18n()
-  const dialogRef = useRef<any>(null)
   const [selectInfo, setSelectInfo] = useState<SelectInfo>(initSelectInfo as SelectInfo)
 
   useImperativeHandle(ref, () => ({
     show(selectInfo) {
       setSelectInfo(selectInfo)
-
-      requestAnimationFrame(() => {
-        dialogRef.current?.setVisible(true)
-      })
     },
   }))
 
@@ -47,7 +42,6 @@ export default forwardRef<MusicAddModalType, {}>((props, ref) => {
   }
 
   const handleSelect = (listInfo: LX.List.MyListInfo) => {
-    dialogRef.current?.setVisible(false)
     if (selectInfo.isMove) {
       void moveListMusics(selectInfo.listId, listInfo.id,
         [selectInfo.musicInfo as LX.Music.MusicInfo],
@@ -70,7 +64,7 @@ export default forwardRef<MusicAddModalType, {}>((props, ref) => {
   }
 
   return (
-    <div ref={dialogRef}>
+    <div>
       {
         selectInfo.musicInfo
           ? (<>

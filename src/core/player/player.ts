@@ -5,6 +5,7 @@ import {
   setResource,
   setStop,
 } from "../../plugins/player/utils";
+import {initial} from '../../plugins/player/index'
 import { setStatusText } from "../../core/player/playStatus";
 import playerState from "../../store/player/state";
 import settingState from "../../store/setting/state";
@@ -203,6 +204,14 @@ const updateViewCount = async (id: number | string) => {
 
 // 处理音乐播放
 const handlePlay = async () => {
+    await initial({
+      volume: settingState.setting["player.volume"],
+      playRate: settingState.setting["player.playbackRate"],
+      cacheSize: settingState.setting["player.cacheSize"]
+          ? parseInt(settingState.setting["player.cacheSize"])
+          : 0,
+      isHandleAudioFocus: settingState.setting["player.isHandleAudioFocus"],
+    });
   global.lx.isPlayedStop &&= false;
 
   if (global.lx.restorePlayInfo) {

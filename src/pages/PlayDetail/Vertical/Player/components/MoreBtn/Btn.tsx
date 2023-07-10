@@ -13,7 +13,7 @@ export default ({ icon, color, onPress }: {
 }) => {
   const theme = useTheme()
   return (
-    <button style={{ width: BTN_WIDTH, height: BTN_WIDTH }} onClick={onPress}>
+    <button  onClick={onPress}>
       {icon}
     </button>
   )

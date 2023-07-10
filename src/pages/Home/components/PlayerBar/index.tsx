@@ -8,6 +8,7 @@ import ControlBtn from './components/ControlBtn'
 import { useTheme } from '../../../../store/theme/hook'
 import { useSettingValue } from '../../../../store/setting/hook'
 import { usePlayMusicInfo } from '../../../../store/player/hook'
+import { Link } from 'react-router-dom'
 export default memo(() => {
   // const { onLayout, ...layout } = useLayout()
   const { musicInfo } = usePlayMusicInfo()
@@ -17,18 +18,29 @@ export default memo(() => {
   const autoHidePlayBar = useSettingValue('common.autoHidePlayBar')
 
   const playerComponent = useMemo(() => (
-    <div style={{ borderColor: theme['c-button-font-selected'],border:'1px solid #000',flexDirection: 'row' }}>
-        {/**<Pic/>**/}
+    <Link to={"/song/player"} style={{
+        position:'fixed',
+        bottom:20,
+        left:50,
+        right:50,
+        padding:20,
+        borderColor: theme['c-button-font-selected'],
+        backgroundColor:'white',
+        border:'1px solid #000',
+        flexDirection: 'row' }}>
         <Title />
-          <div>
+        <div style={{
+            display:'flex',
+            flexDirection:'row',
+            justifyContent: 'space-between',
+            alignItems:'center'
+        }}>
+        {/**<Pic/>**/}
 
-        {/* <View style={{ ...styles.row, justifyContent: 'space-between' }}>
-          <PlayTime />
-        </View> */}
         <PlayInfo />
         <ControlBtn />
-      </div>
-    </div>
+        </div>
+    </Link>
   ), [theme])
 
   // console.log('render pb')

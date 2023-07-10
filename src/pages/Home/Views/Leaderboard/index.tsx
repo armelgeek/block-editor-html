@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { getLeaderboardSetting, saveLeaderboardSetting } from "../../../../utils/data";
-import { getBoardsList } from "../../../../core/leaderboard";
+
 import LeftBar, { LeftBarProps, LeftBarType } from "./LeftBar";
 import MusicList, { MusicListType } from "./MusicList";
 import SongList from "../SongList";
 import SearchTypeSelector from "./SearchTypeSelector";
 
-import PlayerBar from "../../components/PlayerBar";
 // import { BorderWidths } from '../../../../theme'
 // import { useTheme } from '../../../../store/theme/hook'
 
@@ -40,12 +39,12 @@ export default () => {
     };
   }, []);
   useEffect(() => {
-    global.app_event.on("searchTypeChanged", (type) =>{
+    global.app_event.on("searchTypeChanged", (type:any) =>{
       toggleState();
       setListType(type);
     });
     return () => {
-      global.app_event.off("searchTypeChanged", (type) => setListType(type));
+      global.app_event.off("searchTypeChanged", (type:any) => setListType(type));
     };
   }, []);
   console.log('musicListRef',musicListRef.current);
@@ -54,8 +53,7 @@ export default () => {
       <SearchTypeSelector/>
       <LeftBar ref={leftBarRef} onChangeList={handleChangeBound} />
       {listType == "songlist" ? <SongList/> : <MusicList ref={musicListRef} />}
-      <PlayerBar/>
-      
+
     </div>
   );
 };

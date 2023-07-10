@@ -7,7 +7,7 @@ import ControlBtn from './components/ControlBtn'
 
 export default memo(() => {
   return (
-    <div>
+    <>
       <div>
         <PlayInfo />
       </div>
@@ -17,6 +17,6 @@ export default memo(() => {
       <div>
         <MoreBtn />
       </div>
-    </div>
+    </>
   )
 })

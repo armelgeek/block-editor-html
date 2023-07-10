@@ -15,13 +15,13 @@ const LrcFontSize = ({ direction }: {
   const [isSliding, setSliding] = useState(false)
   //const t = useI18n()
 
-  const handleSlidingStart: any['onSlidingStart'] = value => {
+  const handleSlidingStart: any['onSlidingStart'] = (value:any) => {
     setSliding(true)
   }
-  const handleValueChange: any['onValueChange'] = value => {
+  const handleValueChange: any['onValueChange'] =  (value:any) => {
     setSliderSize(value)
   }
-  const handleSlidingComplete: any['onSlidingComplete'] = value => {
+  const handleSlidingComplete: any['onSlidingComplete'] =  (value:any) => {
     setSliding(false)
     if (lrcFontSize == value) return
     updateSetting({ [settingKey]: value })
@@ -31,16 +31,16 @@ const LrcFontSize = ({ direction }: {
     <div>
       <p>{'play_detail_setting_lrc_font_size'}</p>
       <div>
-        <p>{isSliding ? sliderSize : lrcFontSize}</p>
-        {/**<Slider
-          minimumValue={100}
-          maximumValue={300}
-          onSlidingComplete={handleSlidingComplete}
-          onValueChange={handleValueChange}
-          onSlidingStart={handleSlidingStart}
-          step={2}
-          value={lrcFontSize}
-  />**/}
+        <p>{sliderSize}</p>
+        <input
+            type="range"
+            min="0"
+            max="300"
+            step={2}
+            value={sliderSize}
+            onChange={(e) => handleValueChange(e.target.value)}
+            className="progress-bar"
+        />
       </div>
     </div>
   )

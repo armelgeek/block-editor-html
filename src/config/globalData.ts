@@ -36,7 +36,7 @@ global.lx = {
   streamer,
   currentPosition: 0,
   playlist: [],
-  playMode: "in-order",
+  playMode: "singleLoop",
   currentTrackIndex:0,
   restorePlayInfo: null,
   // allList: null,
