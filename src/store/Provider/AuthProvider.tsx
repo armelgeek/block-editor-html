@@ -6,9 +6,9 @@ import React, {
 } from "react";
 import jwtDecode from "jwt-decode";
 import { encode, decode } from "base-64";
-import { storageDataPrefix } from "@/config/constant";
+import { storageDataPrefix } from "../../config/constant";
 import _ from "lodash";
-import auth from "@/utils/api-sdk/modules/auth";
+import auth from "../../utils/api-sdk/modules/auth";
 interface User {
   id?: string | null;
   email?: string | null;

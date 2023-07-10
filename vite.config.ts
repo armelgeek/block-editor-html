@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+import nodePolyfills from "vite-plugin-node-stdlib-browser";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 import path from "path";
@@ -6,24 +7,24 @@ import path from "path";
 export default defineConfig({
   plugins: [
     react(),
+    nodePolyfills(),
+
     VitePWA({
+      registerType: "autoUpdate",
       workbox: {
-        globPatterns: ["**/*"],
-    },
-    // add this to cache all the
-    // static assets in the public folder
-    includeAssets: [
-        "**/*",
-    ],
+        globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+        sourcemap: true
+      },
+      includeAssets: ["**/*"],
       manifest: {
         theme_color: "#f69435",
         background_color: "#f69435",
         display: "standalone",
         scope: "/",
         start_url: "/",
-        short_name: "vite test",
-        description: "testing vite pwa",
-        name: "vite test",
+        short_name: "tiakalo",
+        description: "Site de streaming audio",
+        name: "tiakalo",
         icons: [
           {
             src: "/vite.svg",
@@ -53,5 +54,8 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "src"),
     },
+  },
+  define: {
+    "process.env": {},
   },
 });

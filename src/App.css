@@ -72,3 +72,41 @@
 .current{
   color: red;
 }
+
+
+.board-list-type-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+.board-list-type-btn{
+  padding:5px;
+  margin-right: 10px;
+}
+.board-list-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+}
+input[type="range"] {
+  --range-progress: 0;
+  /* ... */
+}
+
+input[type="range"]::before {
+  /* ... */
+  background: #f50;
+  width: var(--range-progress);
+  /* ... */
+}
+
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  position: relative;
+  cursor: pointer;
+}

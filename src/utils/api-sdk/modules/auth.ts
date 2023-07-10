@@ -1,4 +1,4 @@
-import { apiPrefix } from "@/config/constant";
+import { apiPrefix } from "../../../config/constant";
 import { timeout } from "../options";
 import { httpFetch } from "../request";
 export default {

@@ -1,6 +1,6 @@
-import { routeLists } from '@/config/constant';
-import Home from '@/pages/Home';
-import Login from '@/pages/auth/Login';
+import { routeLists } from '../../../../config/constant';
+import Home from '../../../../pages/Home';
+import Login from '../../../../pages/auth/Login';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 const routes = [

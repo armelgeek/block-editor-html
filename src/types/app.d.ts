@@ -1,10 +1,10 @@
 /* eslint-disable no-var */
-import type { AppEventTypes } from '@/event/appEvent'
-import type { ListEventTypes } from '@/event/listEvent'
-import type { StateEventTypes } from '@/event/stateEvent'
-import type { I18n } from '@/lang/i18n'
+import type { AppEventTypes } from '../../event/appEvent'
+import type { ListEventTypes } from '../../event/listEvent'
+import type { StateEventTypes } from '../../event/stateEvent'
+import type { I18n } from '../../lang/i18n'
 import type { Buffer as _Buffer } from 'buffer'
-import type { SettingScreenIds } from '@/screens/Home/Views/Setting'
+import type { SettingScreenIds } from '../../screens/Home/Views/Setting'
 
 // interface Process {
 //   env: {
@@ -26,6 +26,14 @@ interface GlobalData {
     isRegisteredService: boolean
     isIniting: boolean
   }
+  trackPlayer: any,
+  ac: any,
+  store:any,
+  streamer: any,
+  currentPosition: number,
+  playlist: any;
+  playMode: string;
+  currentTrackIndex:number;
   restorePlayInfo: LX.Player.SavedPlayInfo | null
   isScreenKeepAwake: boolean
   isPlayedStop: boolean

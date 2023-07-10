@@ -1,0 +1,105 @@
+@font-face {
+    font-family: "Akari Fallback UI";
+    src: local("Segoe UI"), local("Roboto"), local("Oxygen"), local("Ubuntu"), local("Cantarell"), local("Open Sans"),
+        local("Helvetica Neue"), local("Helvetica");
+}
+
+
+.akari-not-found {
+    flex: 1 1 auto;
+    align-self: center;
+    max-width: 100vw;
+    max-height: 80vh;
+    margin-top: auto;
+    opacity: 0.2;
+    filter: var(--drop-shadow);
+}
+.tk-dasboard {
+    background-color: red;
+    width: 300;
+}
+
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: #222;
+    color: #fff;
+    padding: 20px;
+}
+
+.sidebar .logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar .logo a {
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.sidebar .menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar .menu li {
+    margin-bottom: 10px;
+}
+
+.sidebar .menu li a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+}
+
+.sidebar .menu li a:hover {
+    color: #fff;
+    background-color: #555;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+/* Content */
+.content {
+    flex: 1;
+    padding: 20px;
+}
+
+.content h1 {
+    margin-top: 0;
+}
+
+/* Exemple de styles spécifiques à la page */
+.content .page-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.content .page-content {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+/* Responsive styles */
+@media only screen and (max-width: 768px) {
+    .wrapper {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        flex: 0 0 100%;
+    }
+
+    .content {
+        flex: 0 0 100%;
+    }
+}

@@ -1,4 +1,20 @@
 export default class Streamer {
+  private readonly ac: any;
+  private url: any;
+  private readonly store: any;
+  private readonly name: any;
+  private active: GainNode;
+  private readonly gain: GainNode;
+  private garbageBuffer: any;
+  private startTime: any;
+  private startOffset: number | null;
+  private stopped: boolean;
+  private ready: boolean;
+  private duration: any;
+  // @ts-ignore
+  private ending: any;
+  private fetchtimer: any;
+  private logtimer: any;
 
   /**
    * streamer constructor
@@ -6,18 +22,19 @@ export default class Streamer {
    * @method constructor
    *
    * @param  {String}     url   – audio asset url
+   * @param ac
    * @param  {AudioStore} store – AudioStore instance
    * @return {Streamer}
    */
 
-  constructor( url, store ) {
-    this.ac     = store.ac;
-    this.store  = store;
+  constructor( url:any, ac:any,store:any) {
     this.url    = url;
+    this.ac = ac;
+    this.store = store;
     this.name   = url.split('/').pop().split('.')[ 0 ];
-    this.active = this.ac.createGain();
-    this.gain   = this.ac.createGain();
-
+    this.active = ac.createGain();
+    this.gain   = ac.createGain();
+    this.gain.gain.value = 1;
     // throwaway audio buffer
     this.garbageBuffer = this.ac.createBuffer( 1, 1, 44100 );
 
@@ -30,7 +47,6 @@ export default class Streamer {
     this.active.connect( this.gain );
     this.gain.connect( this.ac.destination );
   }
-
   /**
    * Preload a chunk so that a subsequent call to `stream()` can
    * begin immediately without hitting thr database
@@ -41,30 +57,6 @@ export default class Streamer {
    * @return {Promise}       – resolves with `this` on completion
    */
 
-  async prime( offset ) {
-    if ( typeof offset !== 'number' ) {
-      offset = this.startOffset !== null ? this.startOffset : 0;
-    }
-
-    /**if ( !this.ready ) {
-      throw new Error( `asset ${ this.name } not loaded` );
-    }**/
-
-    if ( offset >= this.duration ) {
-     console.log( `${ offset } is greater than ${ this.duration }` );
-    }
-
-    const store    = this.store;
-    const duration = Math.min( 5, this.duration - offset );
-    const record   = await store.getAudioBuffer( this.name, offset, duration );
-    const src      = this.ac.createBufferSource();
-
-    src.buffer = record;
-
-    this.primed = { offset, src };
-
-    return this;
-  }
 
   /**
    * Begin playback at the supplied offset (or resume playback)
@@ -72,34 +64,41 @@ export default class Streamer {
    * @method stream
    *
    * @param  {Number} offset – offset in seconds (defaults to 0 or last time )
+   * @param callback
    * @return {Streamer}
    */
 
-  stream( offset,callback ) {
+  stream( offset:any,callback:any ) {
     if ( typeof offset !== 'number' ) {
       offset = this.startOffset !== null ? this.startOffset : 0;
     }
 
-    /**if ( !this.ready ) {
-      throw new Error( `asset ${ this.name } not loaded` );
-    }**/
+   if ( !this.ready ) {
+     console.log(`asset ${ this.name } not loaded` );
+    }
 
-    if ( this.stopped === false ) {
+    if ( !this.stopped ) {
+      global.app_event.playerPlaying();
+      global.app_event.play();
       console.log( `stream ${ this.name } is already playing` );
     }
 
     if ( this.ending ) {
       this.ending.onended = () => {
+        global.app_event.playerEnded();
+        global.app_event.playerEmptied();
         console.log('stream ending ...')
+
       };
       this.ending = null;
     }
 
     if ( offset >= this.duration ) {
+      global.app_event.playerPause();
+      global.app_event.pause();
       console.log('ending ...')
       return this.stop();
     }
-
     // mobile browsers require the first AudioBuuferSourceNode#start() call
     // to happen in the same call stack as a user interaction.
     //
@@ -116,14 +115,15 @@ export default class Streamer {
     this.stopped = false;
     this.startOffset = offset;
 
-    console.info( `streaming ${ this.name } @ ${ offset }s` );
+   // console.info( `streaming ${ this.name } @ ${ offset }s` );
 
-    const play = ( src, when, offset, output) => {
+    const play = ( src:any, when:any, offset:any, output:any) => {
       const logtime = ( when - this.ac.currentTime ) * 1000;
       const logstr  = `playing chunk ${ this.name } @ ${ offset }s`;
 
-      this.logtimer = setTimeout( () => console.info( logstr ), logtime );
-
+     // this.logtimer = setTimeout( () => console.info( logstr ), logtime );
+      global.app_event.playerPlaying();
+      global.app_event.play();
       src.connect( output );
       src.start( when );
 
@@ -135,26 +135,25 @@ export default class Streamer {
       if ( offset >= this.duration ) {
         this.ending = src;
          src.onended = () => {
+           global.app_event.playerPause()
+           global.app_event.pause()
           callback();
          };
-        console.info( `end of file ${ this.name }` );
+       // console.info( `end of file ${ this.name }` );
         return;
       }
-
-      const fetchtime = ( when - this.ac.currentTime ) * 1000 - 2000;
-
       this.fetchtimer = setTimeout( () => {
-        console.info( `need chunk ${ this.name } @ ${ offset }s` );
+       // console.info( `need chunk ${ this.name } @ ${ offset }s` );
 
         /* eslint-disable no-use-before-define */
         next( when, offset, output );
-      }, fetchtime );
+      }, ( when - this.ac.currentTime ) * 1000 - 2000 );
     };
 
-    const next = ( when = 0, offset = 0, output ) => {
+    const next = ( when = 0, offset = 0, output:any ) => {
       const chunkDuration = Math.min( 5, this.duration - offset );
       this.store.getAudioBuffer( this.name, offset, chunkDuration )
-      .then( record => {
+      .then( (record:any) => {
         if ( this.stopped || output !== this.active ) {
           return;
         }
@@ -174,17 +173,8 @@ export default class Streamer {
 
         play( src, when, offset, output);
       })
-      .catch( err => console.log( err ) );
+      .catch( (err:any) => console.log( err ) );
     };
-
-    const primed = this.primed;
-
-    delete this.primed;
-
-    if ( primed && primed.offset === offset ) {
-      return play( primed.src, this.ac.currentTime, offset, this.active);
-    }
-
     next( 0, offset, this.active);
 
     return this;
@@ -205,16 +195,19 @@ export default class Streamer {
 
     this.stopped = true;
     this.active.disconnect();
-    this.active = this.ac.createGain();
+    this.active =this.ac.createGain();
     this.active.connect( this.gain );
 
     const elapsed = this.ac.currentTime - this.startTime;
 
     this.startTime = null;
+    // @ts-ignore
     this.startOffset += elapsed;
+    global.app_event.playerPause()
+    global.app_event.pause()
+    // console.info( `stopping ${ this.name } @ ${ this.startOffset }s` );
 
-    console.info( `stopping ${ this.name } @ ${ this.startOffset }s` );
-
+    // @ts-ignore
     if ( this.startOffset >= this.duration ) {
       this.startOffset = 0;
     }
@@ -241,22 +234,25 @@ export default class Streamer {
     const start   = this.startTime || this.ac.currentTime;
     const offset  = this.startOffset || 0;
     const elapsed = this.ac.currentTime - start;
-
+    global.lx.currentPosition = offset + elapsed;
     return offset + elapsed;
   }
-
+  setUrl(newUrl:string){
+    this.url = newUrl;
+  }
   /**
    * set the current cursor position in seconds
    *
    * @method seek
    * @param  {Number}   offset – offset in seconds
+   * @param callback
    * @return {Streamer}
    */
 
-  seek( offset ,callback ) {
+  async seek( offset:any ,callback:any ) {
     if ( !this.stopped ) {
       this.stop();
-      this.stream( offset,callback );
+      this.stream( offset,callback);
     } else {
       this.startOffset = offset;
     }
@@ -273,18 +269,20 @@ export default class Streamer {
   async load( force = false ) {
 
     if ( !force ) {
-      console.info( `checking cache for ${ this.name }` );
+      //console.info( `checking cache for ${ this.name }` );
 
       try {
         const { duration } = await this.store.getMetadata( this.name );
-        console.info( `cache hit for ${ this.name }` );
+
+        //console.info( `cache hit for ${ this.name }` );
         Object.assign( this, { duration, ready: true } );
         return true;
       } catch {}
     }
 
-    console.info( `fetching ${ this.url }` );
-
+    //console.info( `fetching ${ this.url }` );
+    global.app_event.pause()
+    global.app_event.playerWaiting()
     return new Promise( ( resolve, reject ) => {
       const xhr = new XMLHttpRequest();
 
@@ -292,17 +290,22 @@ export default class Streamer {
       xhr.responseType = 'arraybuffer';
 
       xhr.onload = () => {
-        this.ac.decodeAudioData( xhr.response, ab => {
-          this.store.saveAudioBuffer( this.name, ab ).then( metadata => {
+        global.app_event.playerLoadstart()
+        this.ac.decodeAudioData( xhr.response, (ab:any) => {
+          this.store.saveAudioBuffer( this.name, ab ).then( (metadata:any) => {
             this.duration = metadata.duration;
-           console.info( `fetched ${ this.url }` );
+           //console.info( `fetched ${ this.url }` );
             this.ready = true;
+            global.app_event.playerPause()
+            global.app_event.pause()
             resolve( true );
           }, reject );
         }, reject );
       };
 
       xhr.onerror = (e) => {
+        global.app_event.error()
+        global.app_event.playerError()
         console.log('error',e);
         reject(e);
       };
@@ -312,6 +315,23 @@ export default class Streamer {
 
 
   }
-  
+  getDuration(){
+    return this.duration;
+  }
+  getState(){
+    return {
+      url: this.url,
+      name: this.name,
+      startTime:this.startTime,
+      stopped: this.stopped,
+      ready : this.ready
+    }
+  }
+  setVolume(volume:number){
+    this.gain.gain.value =volume;
+    this.active.connect( this.gain );
+    this.gain.connect( this.ac.destination );
+  }
+
 
 }
