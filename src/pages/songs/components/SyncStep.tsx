@@ -1,10 +1,10 @@
 import React, { useReducer, useState, useCallback, useRef, useEffect, useContext } from 'react';
 import { ActionType as LrcActionType } from "../SongForm";
-import { ChangBits, appContext } from '../../../../../components/app.context';
-import { AudioActionType, audioStatePubSub } from '../../../../../utils/audiomodule';
+import { ChangBits, appContext } from '../../../components/app.context';
+import { AudioActionType, audioStatePubSub } from '../../../utils/audiomodule';
 import { convertTimeToTag, stringify } from '@lrc-maker/lrc-parser';
-import { Synchronizer } from '../../../../../components/synchronizer';
-import { Footer } from '../../../../../components/footer';
+import { Synchronizer } from '../../../components/synchronizer';
+import { Footer } from '../../../components/footer';
 
 
 export const enum Const {

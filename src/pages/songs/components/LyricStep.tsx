@@ -1,10 +1,10 @@
 import React,{ useContext, useRef, useEffect} from 'react';
 import TagsStep from './TagsStep';
 import { ActionType as LrcActionType } from "../SongForm";
-import { ChangBits, appContext } from '../../../../../components/app.context';
-import { AudioActionType, audioStatePubSub } from '../../../../../utils/audiomodule';
+import { ChangBits, appContext } from '../../../components/app.context';
+import { AudioActionType, audioStatePubSub } from '../../../utils/audiomodule';
 import { convertTimeToTag } from '@lrc-maker/lrc-parser';
-import { Editor } from '../../../../../components/editor';
+import { Editor } from '../../../components/editor';
 export const enum Const {
   emptyString = "",
   space = " ",
@@ -28,8 +28,7 @@ function LyricStep({ state, dispatch, onNextStep,isEdit, onPrevStep, isComplete 
   const self = useRef(Symbol('LyricStep.name'));
 
   const { prefState, trimOptions } = useContext(
-    appContext,
-    ChangBits.prefState
+    appContext
   );
 
 

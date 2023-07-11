@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useReducer, useState } from "react";
 import axios from "axios";
 import { debounce } from "lodash";
 import { Link } from "react-router-dom";
-import Title from "../../../../components/ui/Title";
+import Title from "../../components/ui/Title";
 const initialState = {
   songs: [],
   total: 0,

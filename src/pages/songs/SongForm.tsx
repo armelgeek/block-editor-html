@@ -1,6 +1,6 @@
 import React, { useReducer, useState, useEffect, useContext } from "react";
 import { parser, State as LrcState, TrimOptios } from "@lrc-maker/lrc-parser";
-import {stringify} from '../../../../utils/lyric';
+import {stringify} from '../../utils/lyric';
 import { ActionType as LrcActionType } from "./SongForm";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -16,8 +16,8 @@ import {
   Steps,
   Step,
 } from "./components";
-import { guard, mergeObject } from "../../../../utils/lyric";
-import { appContext } from "../../../../components/app.context";
+import { guard, mergeObject } from "../../utils/lyric";
+import { appContext } from "../../components/app.context";
 
 type InitArgs = Readonly<{
   text: string;
