@@ -112,3 +112,32 @@ input[type="range"]::before {
   position: relative;
   cursor: pointer;
 }
+
+#KaraokeView {
+  text-align: center;
+  font-size: 24px;
+
+}
+.KaraokeLine {
+  color :white;
+  text-shadow: 2px  2px 3px navy,
+  -2px  2px 3px navy,
+  2px -2px 3px navy,
+  -2px -2px 3px navy;
+
+}
+.KaraokeActiveLine {
+  color :white;
+  text-shadow: 2px  2px 3px blue,
+  -2px  2px 3px blue,
+  2px -2px 3px blue,
+  -2px -2px 3px blue;
+}
+.KaraokeActiveWord {
+  color :white;
+  text-shadow: 2px  2px 3px red,
+  -2px  2px 3px red,
+  2px -2px 3px red,
+  -2px -2px 3px red;
+}
+
